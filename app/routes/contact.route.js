@@ -1,33 +1,12 @@
-const router = require("express").Router();
-const {
-  findAll,
-  create,
-  deleteAll,
-  findAllFavorite,
-  findOne,
-  update,
-  delete: deleteOne,
-} = require("../controllers/contact.controller");
+const express = require("express");
+const contact = require("../controllers/contact.controller");
 
-// Danh sách tất cả liên hệ
-router.get("/", findAll);
+const router = express.Router();
 
-// Tạo mới liên hệ
-router.post("/", create);
+router.route("/").get(contact.findAll).post(contact.create).delete(contact.deleteAll);
 
-// Xóa tất cả liên hệ
-router.delete("/", deleteAll);
+router.route("/favorite").get(contact.findAllFavorite);
 
-// Danh sách liên hệ yêu thích
-router.get("/favorite", findAllFavorite);
-
-// Lấy thông tin liên hệ theo ID
-router.get("/:id", findOne);
-
-// Cập nhật thông tin liên hệ theo ID
-router.put("/:id", update);
-
-// Xóa liên hệ theo ID
-router.delete("/:id", deleteOne);
+router.route("/:id").get(contact.findOne).post(contact.update).delete(contact.delete);
 
 module.exports = router;
